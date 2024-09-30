@@ -3,7 +3,7 @@ import streamlit as st
 import os
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
-from chroma_retriever import chroma_db_upload_verifier
+from chroma_retriever import chroma_db_upload_verifier, retriever_with_reranker
 from invoice_processor.invoice_data_extractor import extract_invoice_data
 from pathlib import Path
 from prompts.claim_prompts import claim_processing_prompt
@@ -62,6 +62,7 @@ if add_radio == "Chat with your Policy Assistant":
 
     if request and submit:
         chat_result = chroma_db_upload_verifier(request)
+        # chat_result = retriever_with_reranker(request)
         st.write(chat_result)
 
 elif add_radio == "Make a Claim!":
@@ -88,6 +89,7 @@ elif add_radio == "Make a Claim!":
         treatment_type = extracted_invoice_data.treatment_type
         claim_section_prompt = f"""What is the cashback amount for {treatment_type} fees per year?"""
         policy_section = chroma_db_upload_verifier(claim_section_prompt)
+        # policy_section = retriever_with_reranker(claim_section_prompt)
         st.write(policy_section)
 
         claim_details_extracted = extracted_invoice_data.invoice_total + " " + extracted_invoice_data.treatment_type
