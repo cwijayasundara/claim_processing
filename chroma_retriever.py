@@ -15,7 +15,7 @@ persistent_dir = 'vectorstore'
 vectorstore = Chroma(persist_directory=persistent_dir,
                      embedding_function=OpenAIEmbeddings())
 
-retriever = vectorstore.as_retriever()
+retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
 
 llm = ChatOpenAI(model="gpt-4o-2024-08-06",
                  temperature=0,
