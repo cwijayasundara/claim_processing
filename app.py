@@ -47,7 +47,8 @@ with st.sidebar:
     add_radio = st.radio(
         "What can I do for you today?",
         ("Chat with your Policy Assistant",
-         "Make a Claim!",)
+         "Make a Claim!",
+         "ClaimGenius - Design")
     )
 
 if add_radio == "Chat with your Policy Assistant":
@@ -61,8 +62,8 @@ if add_radio == "Chat with your Policy Assistant":
     st.write("What is the cashback amount for optical fees per?")
 
     if request and submit:
-        chat_result = chroma_db_upload_verifier(request)
-        # chat_result = retriever_with_reranker(request)
+        # chat_result = chroma_db_upload_verifier(request)
+        chat_result = retriever_with_reranker(request)
         st.write(chat_result)
 
 elif add_radio == "Make a Claim!":
@@ -88,8 +89,8 @@ elif add_radio == "Make a Claim!":
         # Extract the policy section based on the treatment type
         treatment_type = extracted_invoice_data.treatment_type
         claim_section_prompt = f"""What is the cashback amount for {treatment_type} fees per year?"""
-        policy_section = chroma_db_upload_verifier(claim_section_prompt)
-        # policy_section = retriever_with_reranker(claim_section_prompt)
+        # policy_section = chroma_db_upload_verifier(claim_section_prompt)
+        policy_section = retriever_with_reranker(claim_section_prompt)
         st.write(policy_section)
 
         claim_details_extracted = extracted_invoice_data.invoice_total + " " + extracted_invoice_data.treatment_type
@@ -100,6 +101,13 @@ elif add_radio == "Make a Claim!":
                                  "CLAIM_DETAILS": claim_details_extracted})
 
         st.write(claim_response.content)
+
+elif add_radio == "ClaimGenius - Design":
+    st.header("ClaimGenius - Design")
+    st.image("images/claims-Page-2.jpg")
+    st.write("ClaimGenius is an AI assistant that helps you with your insurance claims.")
+    st.write("It can help you with your policy document knowledge base, help you with your claims, and more.")
+    st.write("Feel free to chat with your Policy Assistant or make a claim to get started!")
 
 
 
