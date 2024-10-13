@@ -29,6 +29,7 @@ Now, follow these steps to generate the prompt:
    - Check if the claimed category matches the policy section
    - Verify if the claim amount is within the policy limits
    - Identify any relevant details that need to be considered based on the policy conditions
+   - calculate the total claim amount based on the policy guidelines
 
 3. Generate a prompt for processing the claim:
    - Start with a clear instruction to process the claim
@@ -38,7 +39,7 @@ Now, follow these steps to generate the prompt:
 4. Format your output as follows:
    <decision>
    [Provide a brief explanation of how you arrived at this prompt, referencing specific parts of the policy 
-   and claim details]
+   and claim details with the calculated claim amount.]
    </decision>
 
 Remember to make the prompt clear, concise, and specific to the given policy and claim details. 
