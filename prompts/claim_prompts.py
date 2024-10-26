@@ -29,6 +29,7 @@ Now, follow these steps to generate the prompt:
    - Check if the claimed category matches the policy section
    - Verify if the claim amount is within the policy limits
    - Identify any relevant details that need to be considered based on the policy conditions
+   - calculate the total claim amount based on the policy guidelines
 
 3. Generate a prompt for processing the claim:
    - Start with a clear instruction to process the claim
@@ -38,10 +39,60 @@ Now, follow these steps to generate the prompt:
 4. Format your output as follows:
    <decision>
    [Provide a brief explanation of how you arrived at this prompt, referencing specific parts of the policy 
-   and claim details]
+   and claim details with the calculated claim amount]
    </decision>
+   <cashback_amount>
+    [Provide the calculated claim amount based on the policy guidelines]
+   </cashback_amount>
 
 Remember to make the prompt clear, concise, and specific to the given policy and claim details. 
 The prompt should guide the claim processor to make an accurate decision based on the provided information.
+
+"""
+
+cash_back_prompt = """
+
+Can you extract the cashback amount and the treatment type from this text?
+
+{text}
+
+Produce the extracted cashback amount and treatment type with the the below attributes in a json format:
+
+treatment_type, cashback_amount
+
+"""
+
+final_response_prompt = """
+
+You are tasked with writing a professional email to an insurance claiming client, informing them of the final decision 
+on their claim and the final claim amount. You will be provided with invoice data and the claim decision. Your goal is 
+to compose a clear, concise, and professional email that effectively communicates the outcome of the claim.
+
+Here is the invoice data:
+<invoice_data>
+    {invoice_data}
+</invoice_data>
+
+Here is the claim decision:
+
+<claim_decision>
+    {claim_decision}
+</claim_decision>
+
+Using the provided information, write an email to the client following these guidelines:
+
+1. Start with a professional greeting.
+2. In the opening paragraph, briefly acknowledge the client's claim and mention the claim number if available.
+3. Clearly state the final decision on the claim (approved, partially approved, or denied).
+4. If the claim is approved or partially approved, specify the final claim amount.
+5. Provide a brief explanation for the decision, referencing relevant details from the invoice data and claim decision.
+6. If applicable, mention any next steps the client needs to take or when they can expect to receive the payment.
+7. Close the email with a professional sign-off and your name/title.
+
+Maintain a professional and empathetic tone throughout the email. Be clear and concise in your communication, avoiding 
+technical jargon where possible. If the claim is denied or partially approved, be tactful in explaining the reasons 
+while remaining firm on the decision.
+
+Write your email inside <email> tags. Do not include any commentary or explanations outside of these tags.
 
 """

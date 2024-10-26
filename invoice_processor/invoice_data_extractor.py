@@ -11,19 +11,22 @@ warnings.filterwarnings('ignore')
 _ = load_dotenv()
 
 # GPT model that supports structured output
-llm = ChatOpenAI(model="gpt-4o-2024-08-06", temperature=0)
+llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 class Invoice(BaseModel):
     """Information about the items on an invoice"""
-    invoice_number:str = Field(description="The invoice number on the invoice")
-    invoice_date:str = Field(description="The date on the invoice. Format: DD/MM/YYYY HH:MM. Example: 09/07/2024 12:47")
-    patient_name:str = Field(description="The patient name given on the invoice")
-    patient_address:str = Field(description="The patient address given on the invoice")
+    invoice_number:str = Field(description="The invoice number on the invoice. Example: 2112407002889")
+    invoice_date:str = Field(description="The issue date on the invoice. Format: DD/MM/YYYY HH:MM. Example: "
+                                         "09/07/2024 12:47")
+    patient_name:str = Field(description="The patient name given on the invoice. Example: John Doe")
+    patient_address:str = Field(description="The patient address given on the invoice. This is a standard UK address "
+                                            "format. If you can't find the address, just output 'Not Found'.")
     treatment_type:str = Field(description="The type of treatment given to the patient. dental, optical, etc.")
     invoice_total:str = Field(description="The total of the invoice that the patient has to pay")
-    clinic_name:str = Field(description="The name of the clinic that issued the invoice")
-    clinic_address:str = Field(description="The address of the clinic that issued the invoice")
-
+    clinic_name:str = Field(description="The name of the clinic that issued the invoice. Example: Dental Clinic. "
+                                        "If you can't find the clinic name, just output 'Not Found")
+    clinic_address:str = Field(description="The address of the clinic that issued the invoice. This is a standard UK "
+                                           "address. If you can't find the address, just output 'Not Found'")
 
 prompt = ChatPromptTemplate.from_messages(
     [
