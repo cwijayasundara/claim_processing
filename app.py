@@ -12,6 +12,8 @@ from llama_index_rag_agent import search_policy_document
 warnings.filterwarnings('ignore')
 _ = load_dotenv()
 
+os.environ['LANGCHAIN_TRACING_V2'] = 'true'
+
 policy_document_path = "docs/policy/pb116349-business-health-select-handbook-1024-pdfa.pdf"
 
 llm = ChatOpenAI(model="gpt-4o-2024-08-06",
@@ -117,7 +119,8 @@ elif add_radio == "Make a Claim!":
 
         # Extract the cashback amount and treatment type from the claim response
         cash_back_amount = cash_back_chain.invoke({"text": claim_response.content})
-        st.write(f":blue[{cash_back_amount.content}]")
+
+        st.write(cash_back_amount.content)
 
         # Generate the final response
         final_response = final_response_chain.invoke({"invoice_data": extracted_invoice_data,
@@ -125,8 +128,13 @@ elif add_radio == "Make a Claim!":
         st.write(f":red[{final_response.content}]")
         
 elif add_radio == "ClaimGenius - Design":
+
+    st.header("ClaimGenius - Business Flow")
+    st.image("images/business_flow.jpg")
+
     st.header("ClaimGenius - Design")
     st.image("images/claims-Page-2.jpg")
+
     st.write("ClaimGenius is an AI assistant that helps you with your insurance claims.")
     st.write("It can help you with your policy document knowledge base, help you with your claims, and more.")
     st.write("Feel free to chat with your Policy Assistant or make a claim to get started!")
